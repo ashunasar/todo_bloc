@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:isar/isar.dart';
 import 'package:todo_bloc/domain/models/todo.dart';
 import 'package:todo_bloc/domain/repository/todo_repo.dart';
 
@@ -16,7 +17,7 @@ class TodoCubit extends Cubit<List<Todo>> {
 
   Future<void> addTodo(String text) async {
     final newTodo = Todo(
-      id: DateTime.now().millisecondsSinceEpoch,
+      id: Isar.autoIncrement,
       text: text,
     );
 

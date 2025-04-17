@@ -11,23 +11,27 @@ class IsarTodoRepo implements TodoRepo {
   @override
   Future<void> addTodo(Todo newTodo) async {
     final todoIsar = TodoIsar.fromDomain(newTodo);
-    db.writeTxnSync(() => db.todoIsars.putSync(todoIsar));
+
+    await db.writeTxn(() => db.todoIsars.put(todoIsar));
   }
 
   @override
   Future<void> deleteTodo(Todo newTodo) async {
-    db.writeTxnSync(() => db.todoIsars.deleteSync(newTodo.id));
+    await db.writeTxn(() async {
+      return await db.todoIsars.delete(newTodo.id);
+    });
   }
 
   @override
   Future<List<Todo>> getTodos() async {
-    final todos = await db.todoIsars.where().findAll();
-
+    var todos = await db.todoIsars.where().findAll();
     return todos.map((t) => t.toDomain()).toList();
   }
 
   @override
   Future<void> updateTodo(Todo newTodo) async {
-    await addTodo(newTodo);
+    final todoIsar = TodoIsar.fromDomain(newTodo);
+
+    await db.writeTxn(() => db.todoIsars.put(todoIsar));
   }
 }

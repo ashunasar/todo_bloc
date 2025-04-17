@@ -68,10 +68,11 @@ TodoIsar _todoIsarDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = TodoIsar();
-  object.id = id;
-  object.isCompleted = reader.readBool(offsets[0]);
-  object.text = reader.readString(offsets[1]);
+  final object = TodoIsar(
+    id: id,
+    isCompleted: reader.readBool(offsets[0]),
+    text: reader.readString(offsets[1]),
+  );
   return object;
 }
 
